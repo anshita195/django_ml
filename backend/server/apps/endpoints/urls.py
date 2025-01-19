@@ -1,10 +1,11 @@
-from django.urls import include, path  # Use path() from django.urls
+from django.urls import re_path  # Use path() from django.urls
 from rest_framework.routers import DefaultRouter
 
 from apps.endpoints.views import EndpointViewSet
 from apps.endpoints.views import MLAlgorithmStatusViewSet
 from apps.endpoints.views import MLAlgorithmViewSet
 from apps.endpoints.views import MLRequestViewSet
+from apps.endpoints.views import PredictView
 
 # Define the router
 router = DefaultRouter(trailing_slash=False)
@@ -18,9 +19,21 @@ router.register(r"mlrequests", MLRequestViewSet, basename="mlrequests")
 #     path("api/v1/", include(router.urls)),
 # ]
 
-urlpatterns = router.urls
+# urlpatterns = router.urls
 
-
+urlpatterns=[
+    *router.urls,
+#     re-path is path using regex
+#     re_path(pattern, view, name)
+        # pattern: The regex pattern to match the URL.
+        # view: The view function or class that will handle the matched URL.
+        # name: An optional name for the route, used for reverse URL lookups.
+    re_path(
+        r"^(?P<endpoint_name>[^/]+)/predict$",
+        PredictView.as_view(),
+        name="predict",
+    ),
+]
 
 
 # from django.conf.urls import include,url

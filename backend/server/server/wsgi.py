@@ -21,7 +21,7 @@ from apps.ml.random_forest import RandomForestClassifier
 
 try:
     registry=MLRegistry()
-    rf =RandomForestClassifier
+    rf =RandomForestClassifier()
     registry.add_algorithm(endpoint_name="income_classifier",
                            algorithm_object=rf,
                            algorithm_name="random forest",
